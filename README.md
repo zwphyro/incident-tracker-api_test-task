@@ -29,7 +29,6 @@ docker compose up -d
 Если вы используете `uv`, введите следующую команды:
 ```sh
 uv sync --locked
-uv venv
 source .venv/bin/activate
 ``` 
 Если вы используете `poetry`, введите следующие команды:
