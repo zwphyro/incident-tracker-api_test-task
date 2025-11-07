@@ -70,3 +70,34 @@ uvicorn src.main:app --host 0.0.0.0 --port 8000
  - `GET /api/vi/incidents/?status=<status>` - возвращает список инцидентов, парметр `status` является опциональным и должен принимать одно из значений: `open`, `reopen`, `in_progress`, `resolved` или `closed`.
  - `PUT /api/v1/incidents/<incident_id>/status/` - изменяет статус инцидента с `id` `incident_id`, в теле запроса передается объект с полем `source`, которое принимает одно из значений, описаных в первом эндпоинте.
 
+### Примеры
+
+Создать новый инцидент:
+```sh
+curl -X 'POST' \
+  'http://0.0.0.0:8000/api/v1/incidents/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "description": "example description",
+  "source": "customer"
+}'
+```
+
+Изменить статус созданного инцидента:
+```sh
+curl -X 'PUT' \
+  'http://0.0.0.0:8000/api/v1/incidents/1/status/' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "status": "in_progress"
+}'
+```
+
+Получить все инциденты со статусом `in_progress`:
+```sh
+curl -X 'GET' \
+  'http://0.0.0.0:8000/api/v1/incidents/?status=in_progress' \
+  -H 'accept: application/json'
+```
