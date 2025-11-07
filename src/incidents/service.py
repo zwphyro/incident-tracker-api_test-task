@@ -40,5 +40,6 @@ async def update_incident_status(
     incident.status = new_status
 
     await session.commit()
+    await session.refresh(incident)
 
     return incident
