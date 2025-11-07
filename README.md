@@ -26,13 +26,18 @@ docker compose up -d
 
 ### Установка зависимостей
 
-Если вы используете `uv`, введите следующую команду:
+Если вы используете `uv`, введите следующую команды:
 ```sh
 uv sync --locked
 uv venv
 source .venv/bin/activate
 ``` 
-иначе используйте `pip`:
+Если вы используете `poetry`, введите следующие команды:
+```sh
+poetry install --no-root
+eval $(poetry env activate)
+``` 
+Иначе используйте `pip`:
 ```sh
 python -m venv .venv
 source .venv/bin/activate
