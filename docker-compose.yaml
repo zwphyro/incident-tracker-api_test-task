@@ -1,0 +1,56 @@
+services:
+  app:
+    image: incidents:0.1.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${APP_CONTAINER_NAME}
+    env_file:
+      - .env
+    ports:
+      - ${APP_PORT}:8000
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks:
+      - default_network
+
+  migrate:
+    image: incidents:0.1.0
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: /bin/sh -c "uv run alembic upgrade head"
+    restart: no
+    networks:
+      - default_network
+
+  postgres:
+    image: postgres:17.6-alpine3.22
+    container_name: ${POSTGRES_CONTAINER_NAME}
+    env_file:
+      - .env
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB}", "-U", "${POSTGRES_USER}", "-q"]
+      start_period: 5s
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    networks:
+      - default_network
+
+volumes:
+  postgres_data:
+
+networks:
+  default_network:
+    driver: bridge

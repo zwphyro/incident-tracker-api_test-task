@@ -1,0 +1,12 @@
+Dockerfile
+docker-compose.yaml
+docker-compose.db.yaml
+
+tests/
+
+.git/
+.gitignore
+
+.venv/
+__pycache__/
+*.py[oc]
