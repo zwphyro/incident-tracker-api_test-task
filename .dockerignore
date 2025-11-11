@@ -1,6 +1,5 @@
 Dockerfile
 docker-compose.yaml
-docker-compose.db.yaml
 
 tests/
 
